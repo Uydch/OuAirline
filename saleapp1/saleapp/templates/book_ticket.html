@@ -1,0 +1,126 @@
+{% extends 'layout/base.html' %}
+
+{% block content  %}
+{% if current_user.is_authenticated %}
+<body>
+<div class="container-search">
+    <h5><i class="fas fa-plane-departure"></i> VÉ MÁY BAY GIÁ RẺ</h5>
+    <form method="post" enctype="multipart/form-data" action="/search_flight">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tripType" id="Khứ Hồi" value="Khứ Hồi" checked
+                   onclick="toggleReturnDate(true)">
+            <label class="form-check-label" for="Khứ Hồi">Khứ hồi</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="tripType" id="Một Chiều" value="Một Chiều"
+                   onclick="toggleReturnDate(false)">
+            <label class="form-check-label" for="Một Chiều">Một chiều</label>
+        </div>
+        <div class="form-group">
+            <label for="departure">Điểm đi</label>
+            <select class="form-control" id="departure" name="diemdi">
+                {% for i in sanbaydi %}
+                <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="destination">Điểm đến</label>
+            <select class="form-control" id="destination" name="diemden">
+                {% for i in sanbayden %}
+                <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="departureDate">Ngày đi</label>
+            <div class="input-group">
+                <input type="date" class="form-control" id="departureDate" value="2024-04-12" name="ngaydi">
+            </div>
+        </div>
+        <div class="form-group" id="returnDateGroup">
+            <label for="returnDate">Ngày về</label>
+            <div class="input-group">
+                <input type="date" class="form-control" id="returnDate" value="2024-05-12" name="ngayden">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Người lớn (>11t)</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeValue('adultCount', -1)">
+                            -
+                        </button>
+                        <input readonly type="text" class="form-control text-center" name="adultCount" id="adultCount" value="1">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeValue('adultCount', 1)">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Trẻ em (2-11t)</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeValue('childCount', -1)">
+                            -
+                        </button>
+                        <input type="text" class="form-control text-center" name="childCount" id="childCount" value="0"
+                               readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeValue('childCount', 1)">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Em bé (0-1t)</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button"
+                                onclick="changeValue('infantCount', -1)">-
+                        </button>
+                        <input type="text" class="form-control text-center" name="infantCount" id="infantCount"
+                               value="0" readonly>
+
+                        <button class="btn btn-outline-secondary" type="button" onclick="changeValue('infantCount', 1)">
+                            +
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="btn_search" >
+                    <button type="submit" class=" search">🔍 TÌM CHUYẾN BAY</button>
+            </div>
+    </form>
+</div>
+
+<script>
+    function toggleReturnDate(show) {
+        var returnDateGroup = document.getElementById('returnDateGroup');
+        if (show) {
+            returnDateGroup.innerHTML = `
+                <label for="returnDate">Ngày về</label>
+                <div class="input-group">
+                    <input type="date" class="form-control" id="returnDate" value="2024-05-12" name="ngayden">
+                </div>
+            `;
+        } else {
+            returnDateGroup.innerHTML = `
+                <input type="hidden" name="ngayden" value="">
+            `;
+        }
+    }
+
+    function changeValue(id, delta) {
+        var input = document.getElementById(id);
+        var value = parseInt(input.value);
+        value += delta;
+        if (value < 0) value = 0;
+        input.value = value;
+    }
+</script>
+{% endif %}
+{% endblock %}

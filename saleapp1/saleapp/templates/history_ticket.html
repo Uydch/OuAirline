@@ -1,0 +1,78 @@
+{% extends 'layout/base.html' %}
+{% block content  %}
+
+{% if current_user.is_authenticated %}
+{% if tickets %}
+
+<div class="date-range-container">
+    <div class="date-box">
+        <label for="start-date" class="label">Từ ngày</label>
+        <div class="date-display">
+            <input type="date" id="start-date" class="date-input" value="2024-11-17">
+            <div class="calendar-icon"></div>
+        </div>
+    </div>
+    <div class="date-box">
+        <label for="end-date" class="label">Đến ngày</label>
+        <div class="date-display">
+            <input type="date" id="end-date" class="date-input" value="2024-12-17">
+            <div class="calendar-icon"></div>
+        </div>
+    </div>
+    <div class="date-box">
+        <button class="search-btn">Tìm</button>
+    </div>
+
+</div>
+{% for t in tickets %}
+{% for c in customer %}
+<div class="history-container">
+    <div class="pnr-section">
+        <label for="pnrt">Mã vé:</label>
+        <span class="highlight">{{t.id}}:</span>
+    </div>
+
+    <div class="info-section">
+        <div class="lefts-info">
+            <div class="left-info">
+                <h4>Thông tin hành trình: </h4>
+                <ul>
+                    <li>
+                        <span>• {{flight_1.route.name}} :</span>
+                        <span class="time">Ngày: {{flight_1.departure_time.strftime('%d-%m')}}</span>
+                        <span class="time">/{{flight_1.departure_time.strftime('%H:%M')}}</span>
+
+                    </li>
+                    {% if flight_2 %}
+                    <li>
+                        <span>• {{flight_2.route.name}}:</span>
+                        <span class="time">{{flight_2.departure_time.strftime('%H:%M')}}</span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="right-info">
+            <h4>Thông tin hành khách:</h4>
+            <div class="passenger-info">
+                <label>Họ và tên:<label class="font-label">{{t.customer_name}}</label></label>
+            </div>
+            <div>
+                <label>Số lượng hành khách: <label class="font-label">{{t.customer_count}}</label></label>
+            </div>
+            <label for="email" class="email-label">Địa chỉ Email: <label class="font-label">{{t.email}}</label></label>
+        </div>
+    </div>
+
+</div>
+    {% endfor %}
+    {% endfor %}
+
+
+    {% else %}
+    <h1>không có lịch sử</h1>
+    {% endif %}
+    {% endif %}
+
+    {% endblock %}

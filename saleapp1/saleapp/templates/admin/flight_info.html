@@ -1,0 +1,1067 @@
+{% extends 'admin/master.html'%}
+{% block body  %}
+
+<style>
+
+    .payment-summary-container {
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    /* Tiêu đề tổng thanh toán */
+    .payment-summary-header h2 {
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Các thông tin chi tiết thanh toán */
+    .payment-summary-details {
+        margin-bottom: 20px;
+    }
+
+    /* Mỗi mục thanh toán */
+    .payment-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-family: 'Arial', sans-serif;
+        color: #555;
+    }
+
+    .payment-item-label {
+        font-weight: bold;
+    }
+
+    .payment-item-amount {
+        font-weight: normal;
+    }
+
+    /* Mục tổng cộng */
+    .payment-item.total {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .flight-info {
+        background-color: #f8f8f8;
+        padding: 10px;
+    }
+
+    .flight-info h1 {
+        font-size: 2rem;
+    }
+
+    .flight-info .highlight {
+        color: orange;
+    }
+
+    .flight-info .table img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .total-price {
+        margin-top: 20px;
+        font-size: 1.5rem;
+    }
+
+    table {
+        text-align: center;
+    }
+
+    /* Định dạng nút thanh toán */
+    .payment-button {
+        display: inline-block;
+        padding: 15px 40px; /* Tạo chiều dài và chiều cao cho nút */
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: white;
+        background-color: #4CAF50; /* Màu nền xanh */
+        border: none;
+        border-radius: 8px; /* Bo góc */
+        cursor: pointer;
+        transition: background-color 0.3s ease; /* Hiệu ứng khi di chuột vào */
+    }
+
+    .container1 {
+        text-align: center;
+        background-color: transparent;
+    }
+
+    .payment-button:hover {
+        background-color: #45a049; /* Màu nền khi hover */
+    }
+
+    .form-section {
+        background-color: #ffffff;
+        padding: 30px;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333333;
+    }
+
+    .form-text {
+        font-size: 0.875em;
+        color: #6c757d;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .form-control::placeholder {
+        color: #999999;
+    }
+
+    .form-section h5 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .form-group input[type="text"], .form-group input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-group input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .form-check {
+        margin: 10px 0;
+    }
+
+    .form-check-label {
+        font-size: 16px;
+        color: #333;
+    }
+
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .container_seat {
+        width: 60%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    h1 {
+        margin: 20px 0;
+    }
+
+    .seat-map {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        width: 70px;
+    }
+
+    .seat, .seat1 {
+        background-color: green;
+        border: 1px solid #bbb;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+        color: white
+    }
+
+    .seat.selected {
+        background-color: #FFD700;
+        color: black;
+    }
+
+    .seat1.selected1 {
+        background-color: #FFD700;
+        color: black;
+    }
+
+    .seat1.locked {
+        background-color: #808080;
+        color: white;
+        cursor: not-allowed;
+    }
+
+    .seat.locked {
+        background-color: #808080;
+        color: white;
+        cursor: not-allowed;
+    }
+
+    .seat:hover, .seat1:hover {
+        background-color: #FFD700;
+        color: black;
+    }
+
+    .left-side, .right-side {
+        display: flex;
+        justify-content: space-between;
+        width: 45%;
+        padding: 0 20px;
+    }
+
+    .selected-seats, .selected-seats {
+        margin-top: 20px;
+    }
+
+    #selected-seats {
+        list-style-type: none;
+    }
+
+    #selected-seats li {
+        margin: 5px 0;
+    }
+
+    button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    button:hover {
+        background-color: #c82333;
+    }
+
+
+</style>
+
+<form method="POST" enctype="multipart/form-data" action="/admin/ticketsaleview/search_flight/flight_info/sendmail">
+    <input type="hidden" name="total-prices" id="hidden-total-price" value="">
+    <input type="hidden" name="totalSelectedSeatCount" id="hidden-totalSelectedSeatCount" value="0">
+    <input type="hidden" name="totalSelectedSeatCount1" id="hidden-totalSelectedSeatCount1" value="">
+    <div class="flight-info">
+        <h1>
+            THÔNG TIN CHUYẾN BAY
+        </h1>
+        <p>
+            <i class="fas fa-plane">
+            </i>
+            Chiều đi :
+            <span class="highlight">
+      {{route_name_1}}
+    </span>
+        </p>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>
+                    Hãng bay
+                </th>
+                <th>
+                    Thời gian đi
+                </th>
+                <th>
+                    Thời gian về
+                </th>
+                <th>
+                    Giá vé
+                </th>
+                <th>
+                    Hạng vé
+                </th>
+                <th>
+                    Người Lớn
+                </th>
+                <th>
+                    Trẻ em
+                </th>
+                <th>
+                    Em bé
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <img alt="Airline logo" height="50"
+                         src="https://storage.googleapis.com/a1aa/image/Q7JxioyQj6pkFRurNGXjGZC0k6q3L9UL1fzFRXKeoGExxG5TA.jpg"
+                         width="50"/>
+                </td>
+                <td>
+                    {{departure_time_1}}
+                </td>
+                <td>
+                    {{arrival_time_1}}
+                </td>
+                <td>
+                    {{ticket_price_class_1}}
+                </td>
+                <td>
+                    {{type_class}}
+                </td>
+                <td id="nguoilon">
+                    {{nguoilon}}
+                </td>
+                <td id="treem">
+                    {{treem}}
+                </td>
+                <td id="embe">
+                    {{embe}}
+                </td>
+            </tr>
+        </table>
+
+
+        {% if type_class == 'CLASS_1'%}
+        <div class="container_seat">
+            <h1>Chọn Chỗ Ngồi Máy Bay</h1>
+            <div class="seat-map">
+                <!-- Bên trái: A, B, C -->
+                <div class="left-side">
+                    <!-- Cột A -->
+                    <div class="column">
+                        <div class="seat" data-seat="1A">1A</div>
+                        <div class="seat" data-seat="2A">2A</div>
+                        <div class="seat" data-seat="3A">3A</div>
+                        <div class="seat" data-seat="4A">4A</div>
+                        <div class="seat" data-seat="5A">5A</div>
+                    </div>
+                    <!-- Cột B -->
+                    <div class="column">
+                        <div class="seat" data-seat="1B">1B</div>
+                        <div class="seat" data-seat="2B">2B</div>
+                        <div class="seat" data-seat="3B">3B</div>
+                        <div class="seat" data-seat="4B">4B</div>
+                        <div class="seat" data-seat="5B">5B</div>
+                    </div>
+                    <div class="column">
+                        <div class="seat" data-seat="2C">1C</div>
+                        <div class="seat" data-seat="2C">2C</div>
+                        <div class="seat" data-seat="3C">3C</div>
+                        <div class="seat" data-seat="4C">4C</div>
+                        <div class="seat" data-seat="5C">5C</div>
+                    </div>
+                </div>
+
+                <!-- Bên phải: D, E, F -->
+                <div class="right-side">
+                    <!-- Cột D -->
+                    <div class="column">
+                        <div class="seat" data-seat="1D">1D</div>
+                        <div class="seat" data-seat="2D">2D</div>
+                        <div class="seat" data-seat="3D">3D</div>
+                        <div class="seat" data-seat="4D">4D</div>
+                        <div class="seat" data-seat="5D">5D</div>
+                    </div>
+                    <!-- Cột E -->
+                    <div class="column">
+                        <div class="seat" data-seat="1E">1E</div>
+                        <div class="seat" data-seat="2E">2E</div>
+                        <div class="seat" data-seat="3E">3E</div>
+                        <div class="seat" data-seat="4E">4E</div>
+                        <div class="seat" data-seat="5E">5E</div>
+                    </div>
+                    <!-- Cột F -->
+                    <div class="column">
+                        <div class="seat" data-seat="1F">1F</div>
+                        <div class="seat" data-seat="2F">2F</div>
+                        <div class="seat" data-seat="3F">3F</div>
+                        <div class="seat" data-seat="4F">4F</div>
+                        <div class="seat" data-seat="5F">5F</div>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <div class="container_seat">
+                <h1>Chọn Chỗ Ngồi Máy Bay</h1>
+
+                <div class="seat-map">
+                    <!-- Bên trái: A, B, C -->
+                    <div class="left-side">
+                        <!-- Cột A -->
+                        <div class="column">
+                            <div class="seat" data-seat="6A">6A</div>
+                            <div class="seat" data-seat="7A">7A</div>
+                            <div class="seat" data-seat="8A">8A</div>
+                            <div class="seat" data-seat="9A">9A</div>
+                            <div class="seat" data-seat="10A">10A</div>
+                        </div>
+                        <!-- Cột B -->
+                        <div class="column">
+                            <div class="seat" data-seat="6B">6B</div>
+                            <div class="seat" data-seat="7B">7B</div>
+                            <div class="seat" data-seat="8B">8B</div>
+                            <div class="seat" data-seat="9B">9B</div>
+                            <div class="seat" data-seat="10B">10B</div>
+                        </div>
+                        <div class="column">
+                            <div class="seat" data-seat="6C">6C</div>
+                            <div class="seat" data-seat="7C">7C</div>
+                            <div class="seat" data-seat="8C">8C</div>
+                            <div class="seat" data-seat="9C">9C</div>
+                            <div class="seat" data-seat="10C">10C</div>
+                        </div>
+                    </div>
+
+                    <!-- Bên phải: D, E, F -->
+                    <div class="right-side">
+                        <!-- Cột D -->
+                        <div class="column">
+                            <div class="seat" data-seat="6D">6D</div>
+                            <div class="seat" data-seat="7D">7D</div>
+                            <div class="seat" data-seat="8D">8D</div>
+                            <div class="seat" data-seat="9D">9D</div>
+                            <div class="seat" data-seat="10D">10D</div>
+                        </div>
+                        <!-- Cột E -->
+                        <div class="column">
+                            <div class="seat" data-seat="6E">6E</div>
+                            <div class="seat" data-seat="7E">7E</div>
+                            <div class="seat" data-seat="8E">8E</div>
+                            <div class="seat" data-seat="9E">9E</div>
+                            <div class="seat" data-seat="10E">10E</div>
+                        </div>
+                        <!-- Cột F -->
+                        <div class="column">
+                            <div class="seat" data-seat="6F">6F</div>
+                            <div class="seat" data-seat="7F">7F</div>
+                            <div class="seat" data-seat="8F">8F</div>
+                            <div class="seat" data-seat="9F">9F</div>
+                            <div class="seat" data-seat="10F">10F</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+            <div style="display:flex;text-align:center;justify-content: space-between;padding:0 80px">
+                <div style="display:flex;text-align:center">
+                    <div style="width:36px;height:24px;background-color:green;margin-right:10px;display:inline-block;margin-right:10px"></div>
+                    : Còn trống
+                </div>
+                <div style="display:flex;text-align:center">
+                    <div style="width:36px;height:24px;background-color:#EE0000;margin-right:10px;display:inline-block"></div>
+                    : Đã đặt
+                </div>
+                <div style="display:flex;text-align:center">
+                    <div style="width:36px;height:24px;background-color:#FFD700;margin-right:10px;display:inline-block"></div>
+                    : Đã chọn
+                </div>
+            </div>
+            <div class="selected-seats">
+                <h2>Ghế đã chọn:</h2>
+                <ul id="selected-seats"></ul>
+            </div>
+
+        </div>
+    </div>
+
+    {% if route_name_2 != "" %}
+    <p>
+        <i class="fas fa-plane">
+        </i>
+        Chiều về :
+        <span class="highlight">
+                    {{route_name_2}}
+                </span>
+    </p>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                Hãng bay
+            </th>
+            <th>
+                Thời gian đi
+            </th>
+            <th>
+                Thời gian về
+            </th>
+            <th>
+                Giá vé
+            </th>
+            <th>
+                Người Lớn
+            </th>
+            <th>
+                Trẻ em
+            </th>
+            <th>
+                Em bé
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <img alt="Airline logo" height="50"
+                     src="https://storage.googleapis.com/a1aa/image/Q7JxioyQj6pkFRurNGXjGZC0k6q3L9UL1fzFRXKeoGExxG5TA.jpg"
+                     width="50"/>
+            </td>
+            <td>
+                {{departure_time_2}}
+            </td>
+            <td>
+                {{arrival_time_2}}
+            </td>
+            <td>
+                {{ticket_price_class_2}}
+            </td>
+            <td>
+                {{nguoilon}}
+            </td>
+            <td>
+                {{treem}}
+            </td>
+            <td>
+                {{embe}}
+            </td>
+        </tr>
+    </table>
+
+    {% if type_class == 'CLASS_1'%}
+    <div class="container_seat">
+        <h1>Chọn Chỗ Ngồi Máy Bay</h1>
+        <div class="seat-map">
+            <!-- Bên trái: A, B, C -->
+            <div class="left-side">
+                <!-- Cột A -->
+                <div class="column">
+                    <div class="seat1" data-seat="1A">1A</div>
+                    <div class="seat1 " data-seat="2A">2A</div>
+                    <div class="seat1 " data-seat="3A">3A</div>
+                    <div class="seat1 " data-seat="4A">4A</div>
+                    <div class="seat1 " data-seat="5A">5A</div>
+                </div>
+                <!-- Cột B -->
+                <div class="column">
+                    <div class="seat1" data-seat="1B">1B</div>
+                    <div class="seat1" data-seat="2B">2B</div>
+                    <div class="seat1" data-seat="3B">3B</div>
+                    <div class="seat1" data-seat="4B">4B</div>
+                    <div class="seat1" data-seat="5B">5B</div>
+                </div>
+                <div class="column">
+                    <div class="seat1" data-seat="2C">1C</div>
+                    <div class="seat1" data-seat="2C">2C</div>
+                    <div class="seat1" data-seat="3C">3C</div>
+                    <div class="seat1" data-seat="4C">4C</div>
+                    <div class="seat1" data-seat="5C">5C</div>
+                </div>
+            </div>
+
+            <!-- Bên phải: D, E, F -->
+            <div class="right-side">
+                <!-- Cột D -->
+                <div class="column">
+                    <div class="seat1" data-seat="1D">1D</div>
+                    <div class="seat1" data-seat="2D">2D</div>
+                    <div class="seat1" data-seat="3D">3D</div>
+                    <div class="seat1" data-seat="4D">4D</div>
+                    <div class="seat1" data-seat="5D">5D</div>
+                </div>
+                <!-- Cột E -->
+                <div class="column">
+                    <div class="seat1" data-seat="1E">1E</div>
+                    <div class="seat1" data-seat="2E">2E</div>
+                    <div class="seat1" data-seat="3E">3E</div>
+                    <div class="seat1" data-seat="4E">4E</div>
+                    <div class="seat1" data-seat="5E">5E</div>
+                </div>
+                <!-- Cột F -->
+                <div class="column">
+                    <div class="seat1" data-seat="1F">1F</div>
+                    <div class="seat1" data-seat="2F">2F</div>
+                    <div class="seat1" data-seat="3F">3F</div>
+                    <div class="seat1" data-seat="4F">4F</div>
+                    <div class="seat1" data-seat="5F">5F</div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="container_seat">
+            <h1>Chọn Chỗ Ngồi Máy Bay</h1>
+
+            <div class="seat-map">
+                <!-- Bên trái: A, B, C -->
+                <div class="left-side">
+                    <!-- Cột A -->
+                    <div class="column">
+                        <div class="seat1" data-seat="6A">6A</div>
+                        <div class="seat1" data-seat="7A">7A</div>
+                        <div class="seat1" data-seat="8A">8A</div>
+                        <div class="seat1" data-seat="9A">9A</div>
+                        <div class="seat1" data-seat="10A">10A</div>
+                    </div>
+                    <!-- Cột B -->
+                    <div class="column">
+                        <div class="seat1" data-seat="6B">6B</div>
+                        <div class="seat1" data-seat="7B">7B</div>
+                        <div class="seat1" data-seat="8B">8B</div>
+                        <div class="seat1" data-seat="9B">9B</div>
+                        <div class="seat1" data-seat="10B">10B</div>
+                    </div>
+                    <div class="column">
+                        <div class="seat1" data-seat="6C">6C</div>
+                        <div class="seat1" data-seat="7C">7C</div>
+                        <div class="seat1" data-seat="8C">8C</div>
+                        <div class="seat1" data-seat="9C">9C</div>
+                        <div class="seat1" data-seat="10C">10C</div>
+                    </div>
+                </div>
+
+                <!-- Bên phải: D, E, F -->
+                <div class="right-side">
+                    <!-- Cột D -->
+                    <div class="column">
+                        <div class="seat1" data-seat="6D">6D</div>
+                        <div class="seat1" data-seat="7D">7D</div>
+                        <div class="seat1" data-seat="8D">8D</div>
+                        <div class="seat1" data-seat="9D">9D</div>
+                        <div class="seat1" data-seat="10D">10D</div>
+                    </div>
+                    <!-- Cột E -->
+                    <div class="column">
+                        <div class="seat1" data-seat="6E">6E</div>
+                        <div class="seat1" data-seat="7E">7E</div>
+                        <div class="seat1" data-seat="8E">8E</div>
+                        <div class="seat1" data-seat="9E">9E</div>
+                        <div class="seat1" data-seat="10E">10E</div>
+                    </div>
+                    <!-- Cột F -->
+                    <div class="column">
+                        <div class="seat1" data-seat="6F">6F</div>
+                        <div class="seat1" data-seat="7F">7F</div>
+                        <div class="seat1" data-seat="8F">8F</div>
+                        <div class="seat1" data-seat="9F">9F</div>
+                        <div class="seat1" data-seat="10F">10F</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+        <div style="display:flex;text-align:center;justify-content: space-between;padding:0 80px">
+            <div style="display:flex;text-align:center">
+                <div style="width:36px;height:24px;background-color:green;margin-right:10px;display:inline-block;margin-right:10px"></div>
+                : Còn trống
+            </div>
+            <div style="display:flex;text-align:center">
+                <div style="width:36px;height:24px;background-color:#EE0000;margin-right:10px;display:inline-block"></div>
+                : Đã đặt
+            </div>
+            <div style="display:flex;text-align:center">
+                <div style="width:36px;height:24px;background-color:#FFD700;margin-right:10px;display:inline-block"></div>
+                : Đã chọn
+            </div>
+        </div>
+        <div class="selected-seats1">
+            <h2>Ghế đã chọn:</h2>
+            <ul id="selected-seats1"></ul>
+        </div>
+
+    </div>
+    {% endif %}
+
+
+    </div>
+    <div class="container mt-5">
+        {% for i in range(nguoilon) %}
+        <div class="form-section">
+            <h5>Người lớn {{ i + 1 }}</h5>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="lastNameAdult{{ i }}" class="form-label">Họ (vd: Nguyen)<span
+                            class="text-danger">*</span></label>
+                    <input required type="text" id="lastNameAdult{{ i }}" name="lastNameAdult{{ i }}"
+                           class="form-control"
+                           placeholder="như trên CMND (không dấu)">
+                </div>
+                <div class="col-md-4">
+                    <label for="fullNameAdult{{ i }}" class="form-label">Tên (vd: Thi Ngoc Anh)<span
+                            class="text-danger">*</span></label>
+                    <input required type="text" id="fullNameAdult{{ i }}" name="fullNameAdult{{ i }}"
+                           class="form-control"
+                           placeholder="như trên CMND (không dấu)">
+                </div>
+                <div class="col-md-4">
+                    <label for="dobAdult{{ i }}" class="form-label">Ngày sinh<span
+                            class="text-danger">*</span></label>
+                    <input required type="date" id="dobAdult{{ i }}" name="dobAdult{{ i }}" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="emailAdult{{ i }}" class="form-label">Email<span
+                            class="text-danger">*</span></label>
+                    <input required type="email" id="emailAdult{{ i }}" name="emailAdult{{ i }}"
+                           class="form-control"
+                           placeholder="Email">
+                </div>
+                <div class="col-md-4">
+                    <label for="phoneAdult{{ i }}" class="form-label">Số điện thoại<span
+                            class="text-danger">*</span></label>
+                    <input required type="tel" id="phoneAdult{{ i }}" name="phoneAdult{{ i }}" class="form-control"
+                           placeholder="Số điện thoại">
+                </div>
+                <div class="col-md-4">
+                    <label for="cccdAdult{{ i }}" class="form-label">CCCD<span class="text-danger">*</span></label>
+                    <input required type="text" id="cccdAdult{{ i }}" name="cccdAdult{{ i }}" class="form-control"
+                           placeholder="CCCD">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for i in range(treem) %}
+        <div class="form-section">
+            <h5>Trẻ em {{ i + 1 }}</h5>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="lastNameChild{{ i }}" class="form-label">Họ (vd: Nguyen)<span
+                            class="text-danger">*</span></label>
+                    <input required type="text" id="lastNameChild{{ i }}" name="lastNameChild{{ i }}"
+                           class="form-control"
+                           placeholder="như trên CMND (không dấu)">
+                </div>
+                <div class="col-md-4">
+                    <label for="fullNameChild{{ i }}" class="form-label">Tên (vd: Thi Ngoc Anh)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="fullNameChild{{ i }}" name="fullNameChild{{ i }}" class="form-control"
+                           placeholder="như trên CMND (không dấu)">
+                </div>
+                <div class="col-md-4">
+                    <label for="dobChild{{ i }}" class="form-label">Ngày sinh<span
+                            class="text-danger">*</span></label>
+                    <input type="date" id="dobChild{{ i }}" name="dobChild{{ i }}" class="form-control">
+                </div>
+            </div>
+            <div class="form-text">Hành khách trẻ em (từ 2 - 11 tuổi)</div>
+        </div>
+        {% endfor %}
+        <!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+        {% for i in range(embe) %}
+        <div class="form-section">
+            <h5>Em bé {{ i + 1 }}</h5>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="lastNameInfant{{ i }}" class="form-label">Họ (vd: Nguyen)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="lastNameInfant{{ i }}" name="lastNameInfant{{ i }}" class="form-control"
+                           placeholder="như trên CMND (không dấu)">
+                </div>
+                <div class="col-md-4">
+                    <label for="fullNameInfant{{ i }}" class="form-label">Tên (vd: Thi Ngoc Anh)<span
+                            class="text-danger">*</span></label>
+                    <input type="text" id="fullNameInfant{{ i }}" name="fullNameInfant{{ i }}" class="form-control"
+                           placeholder="như trên CMND (không dấu)">
+                </div>
+                <div class="col-md-4">
+                    <label for="dobInfant{{ i }}" class="form-label">Ngày sinh<span
+                            class="text-danger">*</span></label>
+                    <input type="date" id="dobInfant{{ i }}" name="dobInfant{{ i }}" class="form-control">
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+
+    </div>
+    <div class="form-group">
+        <div class="payment-summary-container text-center">
+            <div class="payment-summary-header">
+                <h2>Tổng Thanh Toán</h2>
+            </div>
+
+            <div class="payment-summary-details">
+                <div class="payment-item">
+                    <span class="payment-item-label">Giá vé:</span>
+                    <span class="payment-item-amount">500,000 VND</span>
+                </div>
+                <div class="payment-item">
+                    <span class="payment-item-label">Thuế và Phí:</span>
+                    <span class="payment-item-amount">50,000 VND</span>
+                </div>
+                <div class="payment-item">
+                    <span class="payment-item-label">Giảm giá:</span>
+                    <span class="payment-item-amount">-20,000 VND</span>
+                </div>
+                <div class="payment-item total">
+                    <span class="payment-item-label">Tổng cộng:</span>
+                    <span class="payment-item-amount" id="total-price"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class=" text-danger text-center "><h3>QUÝ KHÁCH VUI LÒNG ĐIỀN ĐẦY ĐỦ VÀ CHÍNH XÁC THÔNG TIN CÁ NHÂN ĐỂ
+            THANH TOÁN !</h3></div>
+
+        <div class="form-group">
+            <label><strong>Chọn phương thức thanh toán:</strong></label>
+            <div class="d-flex justify-content-start">
+                <div class="form-check col-4">
+                    <input class="form-check-input" type="radio" name="payment_method" id="payment_method_qr"
+                           value="qr_momo">
+                    <label class="form-check-label" for="payment_method_qr">
+                        <i class="fa fa-qrcode"></i> Thanh toán bằng QR
+                    </label>
+                </div>
+
+                <div class="form-check col-4">
+                    <input class="form-check-input" type="radio" name="payment_method"
+                           id="payment_method_transfer" value="transfer">
+                    <label class="form-check-label" for="payment_method_transfer">
+                        <i class="fa fa-bank"></i> Chuyển khoản ngân hàng
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="container1">
+            <button id="sub" class="payment-button">Bán vé</button>
+        </div>
+    </div>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+</script>
+{% if ticket_price_class_2=="" %}
+<script>
+    <!--           Đoạn mã sẽ chạy sau khi toàn bộ tài liệu HTML được tải và phân tích cú pháp xong (chưa cần đợi các tài nguyên như hình ảnh tải xong)-->
+    document.addEventListener('DOMContentLoaded', function () {
+        const price1 = parseFloat('{{ticket_price_class_1}}'.replace(/,/g, ''));
+        const nguoilon = parseFloat('{{nguoilon}}');
+        const treem = parseFloat('{{treem}}');
+        const embe = parseFloat('{{embe}}');
+        const totalPrice = price1 * (nguoilon + treem + embe);
+        document.getElementById('total-price').textContent = totalPrice.toLocaleString('vi-VN') + ' VND';
+        document.getElementById('hidden-total-price').value = totalPrice.toLocaleString('vi-VN').replace(/,/g, '');  // loại bỏ dấu phẩy
+    });
+    // Lấy phần tử HTML có id là total-price.
+    // textContent: Cập nhật nội dung văn bản hiển thị bên trong phần tử total-price với giá trị đã định dạng.
+</script>
+{% else %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const price1 = parseFloat('{{ticket_price_class_1}}'.replace(/,/g, ''));
+        const price2 = parseFloat('{{ticket_price_class_2}}'.replace(/,/g, ''));
+        const nguoilon = parseFloat('{{nguoilon}}');
+        const treem = parseFloat('{{treem}}');
+        const embe = parseFloat('{{embe}}');
+        const totalPrice = price1 * (nguoilon + treem + embe) + price2 * (nguoilon + treem + embe);
+        document.getElementById('total-price').textContent = totalPrice.toLocaleString('vi-VN') + ' VND';
+        document.getElementById('hidden-total-price').value = totalPrice.toLocaleString('vi-VN').replace(/,/g, '');  // loại bỏ dấu phẩy
+
+    });
+</script>
+{% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const seats = document.querySelectorAll('.seat');
+        const selectedSeatsList = document.getElementById('selected-seats');
+        const totalSelectedSeatCountInput = document.getElementById('hidden-totalSelectedSeatCount');
+        // Tính tổng số khách
+        const nguoilon = parseInt(document.getElementById('nguoilon').textContent) || 0;
+        const treem = parseInt(document.getElementById('treem').textContent) || 0;
+        const embe = parseInt(document.getElementById('embe').textContent) || 0;
+        const totalGuests = nguoilon + treem + embe;
+
+        seats.forEach(seat => {
+            seat.addEventListener('click', function () {
+                const selectedSeatsCount = document.querySelectorAll('.seat.selected').length;
+                if (seat.classList.contains('selected')) {
+                    // Bỏ chọn ghế
+                    seat.classList.remove('selected');
+                    const seatItem = document.querySelector(`li[data-seat="${seat.dataset.seat}"]`);
+                    if (seatItem) {
+                        selectedSeatsList.removeChild(seatItem);
+                    }
+
+                    if (selectedSeatsCount === totalGuests) {
+                        unlockAllSeats();
+                    }
+                } else {
+                    if (selectedSeatsCount < totalGuests) {
+                        seat.classList.add('selected');
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Ghế: ${seat.dataset.seat}`;
+                        listItem.setAttribute('data-seat', seat.dataset.seat);
+                        selectedSeatsList.appendChild(listItem);
+                    }
+
+                    // Kiểm tra nếu đã chọn đủ ghế
+                    if (selectedSeatsCount + 1 === totalGuests) {
+                        lockAllSeats();
+                    }
+                }
+                // Cập nhật số ghế đã chọn vào input ẩn
+                const updatedSelectedSeatsCount = document.querySelectorAll('.seat.selected').length;
+                totalSelectedSeatCountInput.value = updatedSelectedSeatsCount; // Cập nhật giá trị
+            });
+        });
+
+        function lockAllSeats() {
+            seats.forEach(seat => {
+                if (!seat.classList.contains('selected')) {
+                    seat.classList.add('locked');
+                    seat.style.pointerEvents = 'not-allowed'; // Ngăn không cho nhấn vào ghế đã khóa
+                }
+            });
+        }
+
+        function unlockAllSeats() {
+            seats.forEach(seat => {
+                seat.classList.remove('locked');
+                seat.style.pointerEvents = 'auto'; // Cho phép nhấn vào ghế
+            });
+        }
+
+
+        const seats1 = document.querySelectorAll('.seat1');
+        const selectedSeatsList1 = document.getElementById('selected-seats1');
+        const totalSelectedSeatCountInput1 = document.getElementById('hidden-totalSelectedSeatCount1');
+        const hasroute_name_2 = '{{ route_name_2 }}' !== ''
+        console.log(hasroute_name_2)
+        if (hasroute_name_2) {
+            seats1.forEach(seat1 => {
+                seat1.addEventListener('click', function () {
+                    const selectedSeatsCount1 = document.querySelectorAll('.seat1.selected1').length;
+                    if (seat1.classList.contains('selected1')) {
+                        // Bỏ chọn ghế
+                        seat1.classList.remove('selected1');
+                        const seatItem1 = document.querySelector(`li[data-seat="${seat1.dataset.seat}"]`);
+                        if (seatItem1) {
+                            selectedSeatsList1.removeChild(seatItem1);
+                        }
+
+                        if (selectedSeatsCount1 === totalGuests) {
+                            unlockAllSeats1();
+                        }
+                    } else {
+                        if (selectedSeatsCount1 < totalGuests) {
+                            seat1.classList.add('selected1');
+                            const listItem1 = document.createElement('li');
+                            listItem1.textContent = `Ghế: ${seat1.dataset.seat}`;
+                            listItem1.setAttribute('data-seat', seat1.dataset.seat);
+                            selectedSeatsList1.appendChild(listItem1);
+                        }
+
+                        // Kiểm tra nếu đã chọn đủ ghế
+                        if (selectedSeatsCount1 + 1 === totalGuests) {
+                            lockAllSeats1();
+                        }
+                    }
+
+                    // Cập nhật số ghế đã chọn vào input ẩn
+                    const updatedSelectedSeatsCount1 = document.querySelectorAll('.seat1.selected1').length;
+                    totalSelectedSeatCountInput1.value = updatedSelectedSeatsCount1; // Cập nhật giá trị
+                });
+            });
+
+            function lockAllSeats1() {
+                seats1.forEach(seat1 => {
+                    if (!seat1.classList.contains('selected1')) {
+                        seat1.classList.add('locked');
+                        seat1.style.pointerEvents = 'not-allowed'; // Ngăn không cho nhấn vào ghế đã khóa
+                    }
+                });
+            }
+
+            function unlockAllSeats1() {
+                seats1.forEach(seat1 => {
+                    seat1.classList.remove('locked');
+                    seat1.style.pointerEvents = 'auto'; // Cho phép nhấn vào ghế
+                });
+            }
+        }
+
+
+        const selectedSeatsCount = document.getElementById('hidden-totalSelectedSeatCount').value;
+        console.log(selectedSeatsCount)
+        const selectedSeatsCount1 = document.getElementById('hidden-totalSelectedSeatCount1').value;
+        console.log(selectedSeatsCount1)
+
+        if (selectedSeatsCount < totalGuests) {
+            alert("Vui lòng chọn đủ số ghế chiều đi cho tất cả hành khách!"); // Thông báo cho người dùng
+            return; // Ngăn không cho gửi biểu mẫu
+        }
+        if (selectedSeatsCount1 != '') {
+            if (selectedSeatsCount1 < totalGuests) {
+                alert("Vui lòng chọn đủ số ghế chiều về cho tất cả hành khách!"); // Thông báo cho người dùng
+                return; // Ngăn không cho gửi biểu mẫu
+            }
+        }
+    })
+
+        const totalPrice = document.getElementById('hidden-total-price').value;
+        const formData = new FormData();
+
+
+// Đảm bảo rằng phương thức thanh toán được chọn
+        window.onload = function () {
+            const paymentMethod = document.querySelector('input[name="payment_method"]');
+            if (paymentMethod) {
+                paymentMethod.checked = true; // Đặt phương thức thanh toán mặc định
+            }
+        }
+
+
+</script>
+
+{% endblock %}

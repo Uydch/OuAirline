@@ -1,0 +1,327 @@
+{% extends 'admin/master.html'%}
+
+{% block body%}
+{% if  current_user.is_authenticated %}
+<style>
+    .total-revenue {
+     color: #ff6600;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+}
+    h1
+    {
+         color: #ff6600;
+    }
+</style>
+<body>
+<h1>Thống Kê Theo Số Lượng</h1>
+<div class="row">
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>
+                ID Route
+                </th>
+                 <th>
+                Name Route
+                </th>
+                 <th>
+                Total-Flights
+                </th>
+            </tr>
+            {% for i in kq %}
+            <tr>
+                <td>{{i[0]}}</td>
+                <td>{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+          <div class="total-revenue" style="padding-top:10px ">
+        Note: Bao gồm các chuyến bay chưa cất cánh
+    </div>
+    </div>
+      <div class="col-md-7 col-sm-12">
+       <canvas id="flightStats"></canvas>
+    </div>
+</div>
+<!--&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<h1 style="padding-top: 100px">Thống Kê Theo Doanh Thu</h1>
+<div class="row" >
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>
+                ID Route
+                </th>
+                 <th>
+                Name Route
+                </th>
+                 <th>
+                Amount-Flights
+                </th>
+            </tr>
+            {% for i in kq1 %}
+            <tr>
+                <td>{{i[0]}}</td>
+                <td>{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+            </tr>
+
+            {% endfor %}
+        </table>
+          <div class="total-revenue" style="padding-top:10px ">
+        Tổng Doanh Thu: {{tong_doanh_thu_1}} VNĐ
+    </div>
+    </div>
+      <div class="col-md-7 col-sm-12">
+          <form>
+    <div class="form-group">
+<!--        -->
+        <label>Chọn Chuyến Bay Cần Lọc</label>
+            <select class="form-control" name="kw">
+                  <option value="">Chosse Route</option>
+                {% for i in kq %}
+                <option value="{{i[1]}}">{{i[1]}}</option>
+                {% endfor %}
+                 <option value="">Lọc Tất Cả</option>
+            </select>
+<!--        -->
+    </div>
+    <div class="form-group">
+         <label for="month">Chọn Tháng:</label>
+        <select id="month" name="month">
+            <option value="">--Chọn Tháng--</option>
+            <option value="1">Tháng 1</option>
+            <option value="2">Tháng 2</option>
+            <option value="3">Tháng 3</option>
+            <option value="4">Tháng 4</option>
+            <option value="5">Tháng 5</option>
+            <option value="6">Tháng 6</option>
+            <option value="7">Tháng 7</option>
+            <option value="8">Tháng 8</option>
+            <option value="9">Tháng 9</option>
+            <option value="10">Tháng 10</option>
+            <option value="11">Tháng 11</option>
+            <option value="12">Tháng 12</option>
+        </select>
+        <br><br>
+
+        <label for="year">Chọn Năm:</label>
+        <select id="year" name="year">
+            <option value="">--Chọn Năm--</option>
+            <!-- Thêm các lựa chọn năm ở đây -->
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <!-- Bạn có thể thêm nhiều năm nếu cần -->
+        </select>
+        <br><br>
+      <div>Month: {{month}} &nbsp; &nbsp; Year: {{year}}  &nbsp; Route: {{route_name}}</div>
+    </div>
+    <div>
+       <input type="submit" value="Lọc dữ liệu" class="btn btn-info">
+    </div>
+</form>
+       <canvas id="flightStats1"></canvas>
+    </div>
+</div>
+<!--------------------------------------------------->
+<h1 style="padding-top: 100px">Thống Kê Theo Tỷ Lệ</h1>
+<div class="row">
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>
+                ID Route
+                </th>
+                 <th>
+                Name Route
+                </th>
+                 <th>
+               Ratio According To Revenue
+                </th>
+            </tr>
+            {% for i in range(kq2|length) %}
+          <tr>
+          <td>{{ kq2[i][0] }}</td>
+          <td>{{ kq2[i][1] }}</td>
+          <td>{{ revenue_ratios[i] }} %</td>
+          </tr>
+          {% endfor %}
+        </table>
+          <div class="total-revenue" style="padding-top:10px ">
+        Tổng Doanh Thu: {{tong_doanh_thu_2}} VNĐ
+    </div>
+   </div>
+      <div class="col-md-7 col-sm-12">
+          <form>
+            <div class="form-group">
+<!--        -->
+        <label>Chọn Chuyến Bay Cần Lọc</label>
+            <select class="form-control" name="kw1">
+                  <option value="">Chosse Route</option>
+                {% for i in kq %}
+                <option value="{{i[1]}}">{{i[1]}}</option>
+                {% endfor %}
+                 <option value="">Lọc Tất Cả</option>
+            </select>
+<!--        -->
+    </div>
+           <div class="form-group">
+         <label for="month1">Chọn Tháng:</label>
+        <select id="month1" name="month1">
+            <option value="">--Chọn Tháng--</option>
+            <option value="1">Tháng 1</option>
+            <option value="2">Tháng 2</option>
+            <option value="3">Tháng 3</option>
+            <option value="4">Tháng 4</option>
+            <option value="5">Tháng 5</option>
+            <option value="6">Tháng 6</option>
+            <option value="7">Tháng 7</option>
+            <option value="8">Tháng 8</option>
+            <option value="9">Tháng 9</option>
+            <option value="10">Tháng 10</option>
+            <option value="11">Tháng 11</option>
+            <option value="12">Tháng 12</option>
+        </select>
+        <br><br>
+
+        <label for="year1">Chọn Năm:</label>
+        <select id="year1" name="year1">
+            <option value="">--Chọn Năm--</option>
+            <!-- Thêm các lựa chọn năm ở đây -->
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <!-- Bạn có thể thêm nhiều năm nếu cần -->
+        </select>
+        <br><br>
+       <div>Month: {{month1}} &nbsp; &nbsp; Year: {{year1}} &nbsp; Route: {{route_name_1}}</div>
+    </div>
+    <div>
+       <input type="submit" value="Lọc dữ liệu " class="btn btn-info">
+    </div>
+          </form>
+       <canvas id="flightStats2"></canvas>
+</div>
+<!---->
+     <h1 style="padding-top: 100px">Thống Kê Theo Số Lượt Bay</h1>
+<div class="row" >
+    <div class="col-md-5 col-sm-12">
+        <table class="table">
+            <tr>
+                <th>
+                ID Route
+                </th>
+                 <th>
+                Name Route
+                </th>
+                 <th>
+               Number Of Turns
+                </th>
+            </tr>
+            {% for i in kq3 %}
+            <tr>
+                <td>{{i[0]}}</td>
+                <td>{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+            </tr>
+
+            {% endfor %}
+        </table>
+          <div class="total-revenue" style="padding-top:10px ">
+        Tổng Số Lượt: {{tong_so_luot}}
+    </div>
+    </div>
+      <div class="col-md-7 col-sm-12">
+          <form>
+    <div class="form-group">
+<!--        -->
+        <label>Chọn Chuyến Bay Cần Lọc</label>
+            <select class="form-control" name="kw2">
+                  <option value="">Chosse Route</option>
+                {% for i in kq %}
+                <option value="{{i[1]}}">{{i[1]}}</option>
+                {% endfor %}
+                 <option value="">Lọc Tất Cả</option>
+            </select>
+<!--        -->
+    </div>
+    <div class="form-group">
+         <label for="month2">Chọn Tháng:</label>
+        <select id="month2" name="month2">
+            <option value="">--Chọn Tháng--</option>
+            <option value="1">Tháng 1</option>
+            <option value="2">Tháng 2</option>
+            <option value="3">Tháng 3</option>
+            <option value="4">Tháng 4</option>
+            <option value="5">Tháng 5</option>
+            <option value="6">Tháng 6</option>
+            <option value="7">Tháng 7</option>
+            <option value="8">Tháng 8</option>
+            <option value="9">Tháng 9</option>
+            <option value="10">Tháng 10</option>
+            <option value="11">Tháng 11</option>
+            <option value="12">Tháng 12</option>
+        </select>
+        <br><br>
+
+        <label for="year2">Chọn Năm:</label>
+        <select id="year2" name="year2">
+            <option value="">--Chọn Năm--</option>
+            <!-- Thêm các lựa chọn năm ở đây -->
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <!-- Bạn có thể thêm nhiều năm nếu cần -->
+        </select>
+        <br><br>
+      <div>Month: {{month2}} &nbsp; &nbsp; Year: {{year2}}   &nbsp; Route: {{route_name_1}}</div>
+    </div>
+    <div>
+       <input type="submit" value="Lọc dữ liệu" class="btn btn-info">
+    </div>
+</form>
+       <canvas id="flightStats3"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/my-chart.js')}}"></script>
+<script>
+    let labels = []
+    let data = []
+    {% for i in kq %}
+      labels.push('{{i[1]}}')
+      data.push({{i[2]}})
+    {% endfor %}
+    let labels1 =[]
+    let data1 =[]
+       {% for i in kq1 %}
+      labels1.push('{{i[1]}}')
+      data1.push({{i[2]}})
+    {% endfor %}
+    let labels2 =[]
+    let data2 =[]
+    {% for i in range(kq2|length) %}
+           labels2.push('{{ kq2[i][1] }}')
+           data2.push({{ revenue_ratios[i] }})
+          {% endfor %}
+     let labels3 = []
+    let data3 = []
+    {% for i in kq3 %}
+      labels3.push('{{i[1]}}')
+      data3.push({{i[2]}})
+    {% endfor %}
+    window.onload= function () {
+        drawRoute_count_Flight(labels, data)
+        drawRoute_amount_Flight(labels1,data1)
+       drawRoute_percent_amount(labels2,data2)
+         drawRoute_count_turn(labels3,data3)
+    }
+</script>
+<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+</body>
+{% endif %}
+{% endblock %}

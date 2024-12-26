@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đặt vé</title>
+    <style>
+        *{
+          font-size: 17px;
+        }
+          body {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+          }
+          .container {
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 12px;
+              background-color: #f4f4f4;
+              border-radius: 8px;
+          }
+          .header {
+              color: black;
+              padding: 10px ;
+              border-radius: 15px ;
+              background-color:white;
+          }
+
+          .header1{
+              text-align:center;
+              color: red;
+              font-size: 15px;
+
+          }
+        .header2{
+              text-align:center;
+              align-item:center;
+              padding:10px;
+              color:white;
+              background-color:#4CAF50;
+              border-radius:15px;
+              font-size:20px;
+
+            }
+        .footer {
+              text-align: center;
+              font-size: 12px;
+              color: gray;
+              margin-top: 20px;
+          }
+          div.infor{
+               background-color:white;
+          }
+          .info {
+              margin-bottom: 20px;
+          }
+        .infor1{
+          margin-top:20px;
+        }
+
+          .total-price {
+              font-size: 18px;
+              color: black;
+              font-weight: bold;
+          }
+        div.logo{
+          height:180px;
+          padding:10px;
+        }
+
+        img{
+          width:100%;
+          height:100%;
+          border-radius:15px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        <img src="https://vietabank.com.vn/uploads/files/vietabank---cktm-goi-taxi-thang-11-05.jpg" alt="none">
+    </div>
+    <div class="header">
+        <div class="header2">
+            <strong><h1>Xác nhận đặt vé thành công</h1></strong></div>
+        <div class="header1 info infor1">
+            Vé máy bay - Hàng Không Việt Nam
+        </div>
+        <div>
+            <div class="info">Xin chào ,</div>
+            <div class="info">Chúc mừng quý khách đã đặt thành công vé máy bay qua OuAirlines.</div>
+            <div class="info">Mã đặt chỗ : </div>
+            <div class="info">Mã giao dịch : <strong class="text-end">{{payment_number}}</strong></div>
+            <div class="info">Thời gian giao dịch : <span class="text-end"><strong>{{pay_date_time}}</strong></span>
+            </div>
+        </div>
+    </div>
+    <div class="info infor1">
+            <strong>Thông tin vé:</strong>
+        </div>
+    {% if adult_infor%}
+    {% for adult in adult_infor %}
+    <div class="content">
+        <div class="header">
+            <div class="info infor1">
+                <p style="color:red;">Thông tin khách hàng {{loop.index}} :</p>
+                <p>Họ: <strong>{{ adult['lastName'] }}</strong></p>
+                <p>Tên đầy đủ: <strong>{{ adult['fullName'] }}</strong></p>
+                <p>Ngày sinh: <strong>{{ adult['dob'] }}</strong></p>
+                <p>Email: <strong>{{ adult['email'] }}</strong></p>
+                <p>Số điện thoại: <strong>{{ adult['phone'] }}</strong></p>
+                <p>CCCD: <strong>{{ adult['cccd'] }}</strong></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if child_info%}
+    {% for child in child_info %}
+    <div class="content">
+        <div class="header">
+            <div class="info infor1">
+                <p style="color:red;">Thông tin trẻ em {{loop.index}} :</p>
+                <p>Họ: <strong>{{ child['lastName'] }}</strong></p>
+                <p>Tên đầy đủ: <strong>{{ child['fullName'] }}</strong></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% if infant_info%}
+    {% for infant in infant_info %}
+    <div class="content">
+        <div class="header">
+            <div class="info infor1">
+                <p style="color:red;">Thông tin em bé {{loop.index}} :</p>
+                <p>Họ: <strong>{{ infant['lastName'] }}</strong></p>
+                <p>Tên đầy đủ: <strong>{{ infant['fullName'] }}</strong></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="total-price infor">
+        <p>Tổng số tiền: {{ total_price }} VND</p>
+    </div>
+    <div class="footer">
+        <p>Cảm ơn bạn đã chọn OuAirlines!</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,780 @@
+
+main.container{
+position:relative;
+}
+
+.text1{
+text-decoration:none;
+}
+
+nav.navbar{
+top:0;
+width:100%;
+background-color:#111116;
+padding:16px
+}
+
+li.nav-item a{
+color:white
+}
+
+li.nav-item a:hover
+{
+color:#FF5500;
+
+}
+
+i.fa-eye-slash{
+    position:absolute;
+    right:15px;
+    top:37%
+}
+
+i.fa-eye{
+position:absolute;
+    right:15px;
+    top:37%
+}
+
+#togglePassword, #toggleConfirmPassword {
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 16px; /* Tùy chỉnh kích thước icon */
+    display:none;
+}
+
+
+form.register{
+    width:600px;
+    margin:0 auto
+}
+
+nav.container{
+background-color:white;
+padding:20px 40px;
+}
+label i {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+nav.container2{
+background-color:white;
+padding:20px 100px;
+}
+
+div.form-floating{
+margin-bottom:20px;
+position:relative;
+}
+
+
+.text1:hover{
+text-decoration:underline;
+}
+
+div.wrapper{
+    padding-top:40px ;
+
+}
+div.wrapp-header{
+    background: linear-gradient(white,lightgray);
+    border: none;
+    outline: none;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+div.wrapp-top{
+    width: 1100px;
+    max-width: 100%;
+    margin: 0 auto;
+
+}
+div.box a{
+    display: block;
+}
+div.col-left{
+    width: 100%;
+    height: 408px;
+    background-image: url("https://inkythuatso.com/uploads/thumbnails/800/2023/02/hinh-anh-may-bay-tren-bau-troi-inkythuatso-1-07-11-33-06.jpg");
+    position: relative;
+    transition: all 2s;
+    background-position: center;
+    background-size: 100%;
+
+}
+
+div.box div{
+    border-radius: 3px;
+}
+div.content{
+    color:white;
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+}
+div.col:hover div.content{
+    color: var(--orange-);
+}
+
+
+div.wrapp-foot{
+    margin: 15px auto;
+    display: flex;
+    width: 1100px;
+    max-width: 100%;
+}
+div.item{
+    width: 25%;
+    padding: 0 10px;
+    margin-left: 0;
+    float: left;
+
+}
+div.item img,div.item1 img{
+    border-radius: 5px;
+}
+div.item h5{
+    margin-top: 5px;
+}
+div.item img{
+    width: 100%;
+}
+div.content1{
+    width: 100%;
+    height: 55px;
+    padding: 5px 0;
+    color: var(--black-);
+    font-weight: 480;
+    overflow: hidden;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+
+}
+
+i{
+margin-right:5px
+}
+div.content1:hover{
+    color: var(--orange-);
+}
+div.item a{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+div.wrapp-main{
+    max-width: 1100px;
+    margin: 0 auto;
+    margin-top: 10px;
+    position: relative;
+}
+div.wrapp-main-lefts{
+    width: 66.36%;
+    padding-right: 10px;
+    display: inline-block;
+}
+
+div.item1{
+    border-bottom: 1px solid var(--grayline-);
+    padding: 20px 0;
+}
+div.item1:nth-child(4){
+    border-bottom: none;
+}
+.wrapp-main-left .item1:last-child{
+    margin-bottom: 40px;
+}
+div.item2{
+    position: relative;
+}
+div.img{
+    width: 39.5%;
+    height: 167px;
+    margin-right: 20px;
+}
+div.img img{
+    width: 285px;
+    height: 100%;
+}
+div.content2{
+    width: 54.4%;
+    height: 167px;
+    position: absolute;
+    top: 0;
+    right:0;
+    padding: 5px;
+    margin-left: 315px;
+}
+div.content2 h2:hover{
+    color: var(--orange-);
+}
+div.content2>h5,div.content2>h4{
+    margin-top: 10px;
+}
+div.content2 h2{
+    color: var(--black-);
+}
+div.content2 h4{
+    color: var(--black-);
+    font-weight: 500;
+}
+div.cols{
+    margin:20px 0;
+    position: relative;
+}
+div.cols::after{
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background-color: var(--orange-);
+    bottom: -4px;
+}
+div.wrapp-main-rights{
+    width: 33.18%;
+    float: right;
+    padding-left: 10px;
+
+
+}
+div.wrapp-main-right{
+     border: 1px solid var(--grayline-);
+}
+div.img1{
+    width: 100%;
+    height: 195px;
+    position: relative;
+}
+div.img1::after{
+    position: absolute;
+    content: "";
+    height: 3px;
+    width: 100%;
+    top: -3px;
+    left: 0;
+    background-color: var(--orange-);
+}
+div.text{
+    position: relative;
+}
+div.text::after{
+    position: absolute;
+    content: "";
+    width: 3px;
+    height: 21.25px;
+    background-color: var(--orange-);
+    left: 0;
+    top:10px;
+}
+div.text h3{
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+}
+div.img1 img{
+    width: 100%;
+    height: 100%;
+}
+div.content3{
+    padding: 0 15px;
+    margin-top: 10px;
+}
+div.content3 h4,div.content3 h5{
+    margin:5px 0;
+}
+div.item3{
+    width: 90%;
+    margin:0 auto;
+    border-top: 1px solid var(--grayline-);
+    padding: 15px 0;
+
+}
+div.item4{
+    position: relative;
+}
+div.img2{
+    width: 140px;
+    height: 80px;
+}
+div.img2 img{
+    width: 100%;
+}
+div.content4{
+    position: absolute;
+    top: 0;
+    right: 5px;
+    width: 150px;
+}
+div.content4 h5{
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+    -webkit-box-orient: vertical;
+    color: var(--black-);
+}
+
+div.time{
+    animation-duration: 1.5s;
+}
+
+:root{
+    --orange-:#ec7723;
+    --grayline-:#D3D3D3;
+    --lightblue-:#145287;
+    --blue-:#212c4f;
+    --bg-icon-:#FFFFFF33;
+    --text-:#FFFFFF;
+    --black-:#333333;
+    --blues-:#182346;
+}
+a{
+    text-decoration: none;
+    display: block;
+
+}
+ul{
+    list-style-type: none;
+}
+
+.footer {
+    position: relative;
+}
+
+.footer.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-right:20px
+}
+
+/* Các div chứa icon */
+.social-icon {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+div.social-icon i{
+margin:0;
+}
+
+/* Thay đổi màu khi hover */
+.social-icon:hover {
+    background-color: #555;
+    cursor:pointer
+}
+
+.face{
+    background-color:#1877F2;
+}
+
+.insta{
+    background: linear-gradient(210deg,
+        #8A3AB9,
+        #D9008D,
+        #F58529,
+        #FDA700,
+        #FCC63F,
+        #FBAD50);
+}
+
+.youtube{
+    background-color: #FF0000; /* Màu đỏ của YouTube */
+
+}
+/* Đảm bảo icon có kích thước phù hợp */
+.social-icon i {
+    font-size: 19px;
+}
+
+
+/*-------------------------------history_ticket--------------------------------------*/
+
+.history-container {
+    width: 800px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+}
+
+/* Mã đặt chỗ */
+.pnr-section {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.pnr-section .highlight {
+    font-weight: bold;
+    color: #004080;
+}
+
+/* Thông tin */
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fcf8e3;
+    padding: 30px 20px;
+    border: 1px solid #f0ad4e;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+
+
+.left-info{
+    margin-right:30px;
+
+}
+
+.lefts-info{
+    border-right:solid black 1px;
+}
+
+.lefts-info, .right-info {
+    width: 48%;
+
+}
+
+h4 {
+    color: #004080;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.time {
+    font-weight: bold;
+    color: #333;
+}
+
+.right-info .passenger-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.right-info .email-label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.font-label{
+font-weight:bold;
+margin-left: 8px;
+}
+/* Nút chức năng */
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn.close {
+    background-color: #5bc0de;
+}
+
+.btn.add-service {
+    background-color: #f0ad4e;
+}
+
+.btn.close:hover {
+    background-color: #31b0d5;
+}
+
+.btn.add-service:hover {
+    background-color: #ec971f;
+}
+
+div.date-range-container{
+    margin:15px ;
+    display:flex;
+    align-item:center;
+    padding-left:11%;
+}
+
+div.date-box{
+    margin-left:20px;
+
+}
+
+.search-btn {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    padding: 4px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top:20px;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+
+#chatbox {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    z-index:999
+}
+
+
+
+/* Ticket container */
+.ticket-history {
+    width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin:10px auto;
+}
+
+/* Header section */
+.ticket-header {
+    background-color: #fbbd08;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 2px solid #e0a600;
+}
+
+.ticket-header .logo h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.ticket-header .class-type h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+/* Body section */
+.ticket-body {
+    padding: 20px;
+}
+
+.row-history {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.column-history {
+    width: 48%;
+}
+
+.column-history p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+
+
+
+#chat-header {
+    background: #4caf50;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chat-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+#chat-toggle {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+#chat-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.message.bot {
+    background: #e0f7e0;
+    align-self: flex-start;
+}
+
+.message.user {
+    background: #f1f0f0;
+    align-self: flex-end;
+}
+
+#chat-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(100% - 60px);
+    font-size: 14px;
+}
+
+#send-btn {
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+
+/*--------------------------------------------------------------------------------------------------------*/
+
+
+
+/*----------------------------------------------------------------------------------------------------------*/
+
+
+    .container-search {
+        background-color: #0072bc;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 80%;
+        margin: 20px auto;
+        color:white;
+    }
+    .form-control {
+        margin-bottom: 10px;
+    }
+
+    .form-check-inline {
+        margin-right: 20px;
+    }
+    div.input-group {
+        margin-bottom: 10px;
+        display:flex;
+        justify-content:center
+    }
+
+    div.input-group input{
+        margin:1px 1px
+    }
+
+    .btn_search{
+        background-color:#FF5722;
+        border-radius:5px;
+        display:flex;
+        justify-content:center;
+    }
+
+    .btn_search:hover{
+        background-color:#555;
+        cursor:pointer
+
+    }
+
+    button.btn-outline-secondary{
+        background-color:white
+    }
+    button.search{
+        margin:5px auto;
+        background-color:transparent;
+        border:none;
+        color:white;
+        width:100%
+    }
+
+.btn-toggle {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left:85%;
+    bottom:-5px;
+
+}
+
+div.chitiet{
+
+}
+
+.btn-toggle:hover {
+    background-color: #0056b3;
+}
+
+.footer {
+    position: relative;
+}
+
+.footer.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}

@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-sm  text-dark" style="color:#333333">
+    <div class="container-fluid ">
+        <a class="navbar-brand " style="color:#FF6600" href="/">OU AIRLINES</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link " href="/"><i class="fa fa-home" style="color:#FF6600"></i>   Trang chủ</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/book_ticket"><i class="fas fa-ticket-alt" style="color:#FF6600"></i>   Đặt vé</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/history_ticket"><i class="fa-solid fa-clock-rotate-left" style="color:#FF6600"></i>Lịch sử đặt vé </a>
+                </li>
+
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/infor_user">
+                        <i class="fa-regular fa-user"></i>
+                        Chào <span class="">{{current_user.username}}</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/logout"><i class="fa-solid fa-right-to-bracket" style="color:red"></i>Đăng xuất </a>
+                </li>
+
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="/login"><i class="fa fa-sign-in-alt"></i>Đăng nhập</a>
+                </li>
+
+                    <a class="nav-link text-danger" href="/register"><i class="fa fa-sign-out-alt"></i>Đăng ký</a>
+                </li>
+                {% endif %}
+
+
+
+            </ul>
+        </div>
+    </div>
+    <div class="social-icons">
+        <!-- Div chứa Facebook -->
+        <div class="social-icon face">
+            <i class="fab fa-facebook-f"></i>
+        </div>
+
+        <!-- Div chứa Instagram -->
+        <div class="social-icon insta">
+            <i class="fab fa-instagram"></i>
+        </div>
+
+        <!-- Div chứa Youtube -->
+        <div class="social-icon youtube">
+            <i class="fab fa-youtube"></i>
+        </div>
+    </div>
+</nav>

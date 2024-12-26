@@ -1,0 +1,390 @@
+{% extends 'layout/base.html' %}
+{% block content  %}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+<style>
+    .container {
+        background-color: #e9ecef;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 100%;
+        background-color: #f8f9fa;
+    }
+    .form-control {
+        margin-bottom: 10px;
+    }
+    .btn-primary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-primary i {
+        margin-left: 5px;
+    }
+    .form-check-inline {
+        margin-right: 20px;
+    }
+    .input-group {
+        margin-bottom: 10px;
+    }
+
+    .slideshow {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        .slideshow img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+        .slideshow img.active {
+            opacity: 1;
+        }
+
+
+    .carousel {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-items {
+            min-width: calc(33.3333% - 1rem);
+            margin-right: 1rem;
+            box-sizing: border-box;
+
+        }
+    .text-containers {
+    max-width: 100%;
+    overflow-wrap: break-word; /* Chia từ nếu quá dài */
+    text-align: center; /* Căn chỉnh văn bản (tùy chọn) */
+}
+
+    /* Đặt kiểu chữ và màu sắc */
+.text-animated {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #1e90ff; /* Màu xanh dương đẹp (DodgerBlue) */
+    display: inline-block;
+    font-family: 'Arial', sans-serif; /* Phông chữ đơn giản, dễ đọc */
+    text-transform: uppercase; /* Chữ hoa toàn bộ */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /* Bóng mờ nhẹ cho chữ */
+    transition: all 0.3s ease; /* Chuyển động mượt mà khi hover */
+}
+
+/* Hiệu ứng hover khi di chuột vào chữ */
+.text-animated:hover {
+    transform: scale(1.1); /* Phóng to chữ khi hover */
+    text-shadow: 2px 2px 15px rgba(30, 144, 255, 0.7); /* Tăng độ mờ của bóng khi hover */
+    color: #00bfff; /* Màu xanh sáng hơn khi hover (DeepSkyBlue) */
+}
+
+/* Hiệu ứng chữ xuất hiện dần dần */
+.text-animated {
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+}
+
+/* Hiệu ứng xuất hiện chữ */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Chữ sẽ xuất hiện từ dưới lên */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Chữ sẽ ổn định ở vị trí ban đầu */
+    }
+}
+
+}
+
+</style>
+<body>
+<div class="slideshow">
+    <img alt="Image 1" class="active" height="400" src="{{ url_for('static', filename='images/img1.jpg')}}"
+         width="1366"/>
+    <img alt="Image 2" height="400" src="{{ url_for('static', filename='images/img3.jpg')}}" width="1366"/>
+    <img alt="Image 3" height="400" src="{{ url_for('static', filename='images/img2.jpg')}}" width="1366"/>
+    <img alt="Image 4" height="400" src="{{ url_for('static', filename='images/img4.jpg')}}" width="1366"/>
+    <img alt="Image 5" height="400" src="{{ url_for('static', filename='images/img5.jpg')}}" width="1366"/>
+    <img alt="Image 6" height="400" src="{{ url_for('static', filename='images/img1.jpg')}}" width="1366"/>
+</div>
+
+<section class="text-center">
+    <h2 class="text-animated">
+        Thông tin nổi bật
+    </h2>
+
+    <div class="carousel">
+        <div class="carousel-track">
+            <div class="carousel-items">
+                <img alt="Laptop showing Vietnam Airlines website" class="rounded-md" height="200"
+                     src="https://storage.googleapis.com/a1aa/image/W22Jvrro8RpFAZRITMyA06vLK8rUUg8GLsDdCKHI70Ihfq8JA.jpg"
+                     width="300"/>
+                <div class="bg-blue-100 p-4 rounded-b-md text-containers">
+                    <h3 class="text-lg font-semibold">
+                        Làm thủ tục trực tuyến
+                    </h3>
+                    <p>
+                        Chủ động làm thủ tục trên website hoặc ứng dụng di động của Vietnam Airlines.
+                    </p>
+                </div>
+            </div>
+            <div class="carousel-items">
+                <img alt="People in a luxury lounge" class="rounded-md" height="200"
+                     src="https://storage.googleapis.com/a1aa/image/f2MC35WMmRwJZafmTuQFMrjfqGfs0dkdp877i8e6aur3wvKfE.jpg"
+                     width="300"/>
+                <div class="bg-blue-100 p-4 rounded-b-md">
+                    <h3 class="text-lg font-semibold">
+                        Phòng khách Thương gia
+                    </h3>
+                    <p>
+                        Trải nghiệm phòng chờ sang trọng, yên tĩnh và đầy đủ tiện nghi trước giờ khởi hành.
+                    </p>
+                </div>
+            </div>
+            <div class="carousel-items">
+                <img alt="Gourmet meal on a plane" class="rounded-md" height="200"
+                     src="https://storage.googleapis.com/a1aa/image/TJ81rERP8d4qGRnfuvJiLBRsjCHOeUD5U9qJacHzeqKT8rynA.jpg"
+                     width="300"/>
+                <div class="bg-blue-100 p-4 rounded-b-md">
+                    <h3 class="text-lg font-semibold">
+                        Ẩm thực hạng Thương gia
+                    </h3>
+                    <p>
+                        Trải nghiệm "ẩm thực trên mây" tiêu chuẩn 4 sao.
+                    </p>
+                </div>
+            </div>
+            <div class="carousel-items">
+                <img alt="Laptop showing Vietnam Airlines website" class="rounded-md" height="200"
+                     src="https://storage.googleapis.com/a1aa/image/W22Jvrro8RpFAZRITMyA06vLK8rUUg8GLsDdCKHI70Ihfq8JA.jpg"
+                     width="300"/>
+                <div class="bg-blue-100 p-4 rounded-b-md">
+                    <h3 class="text-lg font-semibold">
+                        Làm thủ tục trực tuyến
+                    </h3>
+                    <p>
+                        Chủ động làm thủ tục trên website hoặc ứng dụng di động của Vietnam Airlines.
+                    </p>
+                </div>
+            </div>
+            <div class="carousel-items">
+                <img alt="People in a luxury lounge" class="rounded-md" height="200"
+                     src="https://storage.googleapis.com/a1aa/image/f2MC35WMmRwJZafmTuQFMrjfqGfs0dkdp877i8e6aur3wvKfE.jpg"
+                     width="300"/>
+                <div class="bg-blue-100 p-4 rounded-b-md">
+                    <h3 class="text-lg font-semibold">
+                        Phòng khách Thương gia
+                    </h3>
+                    <p>
+                        Trải nghiệm phòng chờ sang trọng, yên tĩnh và đầy đủ tiện nghi trước giờ khởi hành.
+                    </p>
+                </div>
+            </div>
+            <div class="carousel-items">
+                <img alt="Gourmet meal on a plane" class="rounded-md" height="200"
+                     src="https://storage.googleapis.com/a1aa/image/TJ81rERP8d4qGRnfuvJiLBRsjCHOeUD5U9qJacHzeqKT8rynA.jpg"
+                     width="300"/>
+                <div class="bg-blue-100 p-4 rounded-b-md">
+                    <h3 class="text-lg font-semibold">
+                        Ẩm thực hạng Thương gia
+                    </h3>
+                    <p>
+                        Trải nghiệm "ẩm thực trên mây" tiêu chuẩn 4 sao.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapp-main">
+        <div class="wrapp-main-lefts">
+            <div class="wrapp-main-left">
+                <div class="item1">
+                    <div class="item2">
+                        <div class="img"><a href=""><img src="static/images/img1.jpg" alt=""></a></div>
+                        <div class="content2">
+                            <a href=""><span><h2>Hyundai Stargazer X chính thức trình làng, sẵn sàng đấu Mitsubishi Xpander Cross và Suzuki XL7</h2></span></a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="item1">
+                    <div class="item2">
+                        <div class="img"><a href=""><img src="static/images/img2.jpg" alt=""></a></div>
+                        <div class="content2">
+                            <a href=""><span><h2>Hyundai Stargazer X chính thức trình làng, sẵn sàng đấu Mitsubishi Xpander Cross và Suzuki XL7</h2></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item1">
+                    <div class="item2">
+                        <div class="img"><a href=""><img src="static/images/img3.jpg" alt=""></a></div>
+                        <div class="content2">
+                            <a href=""><span><h2>Hyundai Stargazer X chính thức trình làng, sẵn sàng đấu Mitsubishi Xpander Cross và Suzuki XL7</h2></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item1">
+                    <div class="item2">
+                        <div class="img"><a href=""><img src="static/images/img4.jpg" alt=""></a></div>
+                        <div class="content2">
+                            <a href=""><span><h2>Hyundai Stargazer X chính thức trình làng, sẵn sàng đấu Mitsubishi Xpander Cross và Suzuki XL7</h2></span></a>
+                        </div>
+                    </div>
+                </div>
+                <a href="">
+                    <div class="col col-left cols">
+                        <div class="content">
+                            <h2>Trước thời điểm "tháng cô hồn", Hyundai Stargazer tiếp tục bài ca "giảm giá" tại đại
+                                lý</h2>
+                            <h5>Tin xe</h5>
+                        </div>
+                    </div>
+                </a>
+                <div class="item1">
+                    <div class="item2">
+                        <div class="img"><a href=""><img src="static/images/img5.jpg" alt=""></a></div>
+                        <div class="content2">
+                            <a href=""><span><h2>Hyundai Stargazer X chính thức trình làng, sẵn sàng đấu Mitsubishi Xpander Cross và Suzuki XL7</h2></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item1">
+                    <div class="item2">
+                        <div class="img"><a href=""><img src="static/images/img6.jpg" alt=""></a></div>
+                        <div class="content2">
+                            <a href=""><span><h2>Hyundai Stargazer X chính thức trình làng, sẵn sàng đấu Mitsubishi Xpander Cross và Suzuki XL7</h2></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapp-main-rights">
+            <div class="wrapp-main-right">
+                <div class="text">
+                    <h3>NGƯỜI DÙNG ĐÁNH GIÁ XE</h3>
+                </div>
+                <a href="">
+                    <div class="img1"><img src="static/images/img7.jpg" alt=""></div>
+                </a>
+                <div class="fixx">
+                    <div class="content3">
+                        <h4>Lập trình viên đánh giá Toyota Corolla Cross: giàu công nghệ, điều hòa mát sâu, nhưng giải
+                            trí kém</h4>
+                        <h5>Đánh giá xe</h5>
+                    </div>
+                    <div class="item3">
+                        <div class="item4">
+                            <a href="">
+                                <div class="img2"><img src="static/images/img8.jpg" alt=""></div>
+                            </a>
+                            <a href="">
+                                <div class="content4"><h5>Lão niên tuổi 65 đánh giá Ford Territory: Giàu công nghệ, an
+                                    toàn nhưng ăn xăng và còn "sạn" ở các trang bị thông tin giải trí</h5></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item3">
+                        <div class="item4">
+                            <a href="">
+                                <div class="img2"><img src="static/images/img9.jpg" alt=""></div>
+                            </a>
+                            <a href="">
+                                <div class="content4"><h5>Lão niên tuổi 65 đánh giá Ford Territory: Giàu công nghệ, an
+                                    toàn nhưng ăn xăng và còn "sạn" ở các trang bị thông tin giải trí</h5></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item3">
+                        <div class="item4">
+                            <a href="">
+                                <div class="img2"><img src="static/images/img1.jpg" alt=""></div>
+                            </a>
+                            <a href="">
+                                <div class="content4"><h5>Lão niên tuổi 65 đánh giá Ford Territory: Giàu công nghệ, an
+                                    toàn nhưng ăn xăng và còn "sạn" ở các trang bị thông tin giải trí</h5></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item3">
+                        <div class="item4">
+                            <a href="">
+                                <div class="img2"><img src="static/images/img2.jpg" alt=""></div>
+                            </a>
+                            <a href="">
+                                <div class="content4"><h5>Lão niên tuổi 65 đánh giá Ford Territory: Giàu công nghệ, an
+                                    toàn nhưng ăn xăng và còn "sạn" ở các trang bị thông tin giải trí</h5></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+<script>
+    function toggleReturnDate(show) {
+        var returnDateGroup = document.getElementById('returnDateGroup');
+        if (show) {
+            returnDateGroup.innerHTML = `
+                <label for="returnDate">Ngày về</label>
+                <div class="input-group">
+                    <input type="date" class="form-control" id="returnDate" value="2024-05-12" name="ngayden">
+                </div>
+            `;
+        } else {
+            returnDateGroup.innerHTML = `
+                <input type="hidden" name="ngayden" value="">
+            `;
+        }
+    }
+
+    function changeValue(id, delta) {
+        var input = document.getElementById(id);
+        var value = parseInt(input.value);
+        value += delta;
+        if (value < 0) value = 0;
+        input.value = value;
+    }
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.slideshow img');
+    const totalImages = images.length;
+
+    setInterval(() => {
+        images[currentIndex].classList.remove('active');
+        currentIndex = (currentIndex + 1) % totalImages;
+        images[currentIndex].classList.add('active');
+    }, 2000);
+
+    const track = document.querySelector('.carousel-track');
+    let index = 0;
+
+    function moveToNextSlide() {
+        index++;
+        if (index >= track.children.length) {
+            index = 0;
+        }
+        const amountToMove = -index * (100 / 3 + 1); // Adjust for margin
+        track.style.transform = `translateX(${amountToMove}%)`;
+    }
+
+    setInterval(moveToNextSlide, 3000);
+
+
+</script>
+{% endblock %}

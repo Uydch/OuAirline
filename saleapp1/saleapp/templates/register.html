@@ -1,0 +1,146 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<nav class="container">
+    <h1 class="text-center text-danger">ĐĂNG KÝ TÀI KHOẢN</h1>
+
+
+    <form class="register" id="signupForm" method="post" enctype="multipart/form-data" action="/register">
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" class="form-control" id="username" required placeholder="Tên đăng nhập" name="username">
+            <label for="username"><i class="fa fa-user"></i>Tên đăng nhập</label>
+        </div>
+
+        <div class="form-floating mt-3 mb-3">
+            <input type="text" class="form-control" id="name" required placeholder="Họ và tên" name="name">
+            <label for="name"><i class="fa fa-user-circle"></i>Họ và tên</label>
+        </div>
+
+        <div class="form-floating mt-3 mb-3">
+            <input type="password" class="form-control" id="password" required placeholder="Mật khẩu" name="password">
+            <label for="password"><i class="fa fa-lock"></i>Mật khẩu</label>
+            <i id="togglePassword" class="fas fa-eye-slash"></i>
+        </div>
+
+        <div class="form-floating mt-3 mb-3">
+            <input type="password" class="form-control" id="confirm" required placeholder="Nhập lại mật khẩu" name="confirm">
+            <label for="confirm"><i class="fa fa-lock"></i>Xác nhận mật khẩu</label>
+            <i id="toggleConfirmPassword" class="fas fa-eye-slash"></i>
+        </div>
+
+        <div class="form-floating mt-3 mb-3">
+            <input type="email" class="form-control" id="email" required placeholder="Nhập email" name="email">
+            <label for="email"><i class="far fa-envelope"></i>Nhập địa chỉ email</label>
+
+        </div>
+
+        <div class="form-floating mt-3 mb-3">
+            <input type="file" class="form-control" id="avatar" required placeholder="Chọn ảnh đại diện" name="avatar">
+            <label for="avatar">Chọn ảnh đại diện</label>
+        </div>
+
+
+
+        {% if err_msg %}
+        <div class="" style="font-size:13px;color:red;">
+            {{err_msg}}
+        </div>
+        {% endif %}
+
+        {% if err_email %}
+        <div class="" style="font-size:13px;color:red;">
+            {{err_email}}
+        </div>
+        {% endif %}
+
+        {% if err_username %}
+        <div class="" style="font-size:13px;color:red;">
+            {{err_username}}
+        </div>
+        {% endif %}
+
+        <div style="padding:20px;  display: flex;
+    justify-content: center;
+    align-items: center; ">
+            <div style="text-align:center;">
+                <div style="margin-bottom:10px">
+                    <button type="submit" class="btn btn-danger" value="Đăng ký">ĐĂNG KÝ</button>
+                </div>
+                <div>
+                    <a class="navbar-brand text-center text1" href="/login">Bạn đã có tài khoản?</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</nav>
+<script>
+    // Lấy phần tử mật khẩu, xác nhận mật khẩu và các icon
+const togglePassword = document.getElementById("togglePassword");
+const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+const passwordField = document.getElementById("password");
+const confirmPasswordField = document.getElementById("confirm");
+
+// Khi người dùng nhập vào trường mật khẩu, hiển thị icon mắt
+passwordField.addEventListener("input", function() {
+    if (passwordField.value.length > 0) {
+        togglePassword.style.display = 'inline';  // Hiển thị icon mắt
+    } else {
+        togglePassword.style.display = 'none';   // Ẩn icon mắt khi không có nhập liệu
+    }
+});
+
+// Khi người dùng nhập vào trường xác nhận mật khẩu, hiển thị icon mắt
+confirmPasswordField.addEventListener("input", function() {
+    if (confirmPasswordField.value.length > 0) {
+        toggleConfirmPassword.style.display = 'inline';  // Hiển thị icon mắt
+    } else {
+        toggleConfirmPassword.style.display = 'none';   // Ẩn icon mắt khi không có nhập liệu
+    }
+});
+
+// Thêm sự kiện click vào icon "Hiện mật khẩu"
+togglePassword.addEventListener("click", function () {
+    if (passwordField.type === "password") {
+        passwordField.type = "text"; // Hiển thị mật khẩu
+        togglePassword.classList.remove("fa-eye-slash"); // Xóa icon mắt đóng
+        togglePassword.classList.add("fa-eye"); // Thêm icon mắt mở
+    } else {
+        passwordField.type = "password"; // Ẩn mật khẩu
+        togglePassword.classList.remove("fa-eye"); // Xóa icon mắt mở
+        togglePassword.classList.add("fa-eye-slash"); // Thêm icon mắt đóng
+    }
+});
+
+// Thêm sự kiện click vào icon "Hiện mật khẩu xác nhận"
+toggleConfirmPassword.addEventListener("click", function () {
+    if (confirmPasswordField.type === "password") {
+        confirmPasswordField.type = "text"; // Hiển thị mật khẩu
+        toggleConfirmPassword.classList.remove("fa-eye"); // Xóa icon mắt đóng
+        toggleConfirmPassword.classList.add("fa-eye-slash"); // Thêm icon mắt mở
+    } else {
+        confirmPasswordField.type = "password"; // Ẩn mật khẩu
+        toggleConfirmPassword.classList.remove("fa-eye-slash"); // Xóa icon mắt mở
+        toggleConfirmPassword.classList.add("fa-eye"); // Thêm icon mắt đóng
+    }
+});
+
+// Lấy phần tử tên đăng nhập và form
+const usernameField = document.getElementById("username");
+const form = document.getElementById("signupForm");
+
+// Biểu thức chính quy kiểm tra tên đăng nhập không dấu, không có khoảng trắng, viết liền nhau
+const usernameRegex = /^[a-zA-Z0-9]+$/; // Chỉ chấp nhận chữ cái và số, không có dấu và không có khoảng trắng
+
+form.addEventListener("submit", function(event) {
+    const username = usernameField.value;
+
+    // Kiểm tra tên đăng nhập
+    if (!usernameRegex.test(username)) {
+        alert("Tên đăng nhập không hợp lệ. Vui lòng chỉ sử dụng chữ cái và số, không có dấu và không có khoảng trắng.");
+        event.preventDefault(); // Ngừng việc gửi form
+    }
+});
+
+
+</script>
+{% endblock %}

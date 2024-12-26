@@ -1,0 +1,380 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+
+<link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .header-text {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .highlight {
+        color: #ff6600;
+    }
+
+    .table th {
+    background-color:#212529;
+    color:white;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .btn-next {
+        background-color: #ff3366;
+        color: white;
+    }
+    nav.container{
+    background-color:none;
+    }
+    table{
+    text-align:center;
+    }
+
+    td.cols{
+    position:relative;
+    }
+
+    td.cols::before{
+    font-size:13px;
+    content: var(--seat-count);
+    position: absolute;
+    width: 60%;
+    height:20px;
+    background-color:#FF7700;
+    border-radius:0 0 8px 8px;
+    top: -1px;
+    left: 20%;
+    border: solid 1px transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:black;
+    }
+
+    td.out-of-stock::before{
+    font-size:12px;
+    content: "Hết vé";
+    position: absolute;
+    width: 60%;
+    height:20px;
+    background-color:#808080;
+    color:black;
+    border-radius:0 0 8px 8px;
+    top: -1px;
+    left: 20%;
+    border: solid 1px transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    }
+
+    .disabled {
+    pointer-events: none; /* Khóa không cho người dùng chọn */
+    opacity: 0.8; /* Làm mờ phần tử */
+}
+
+
+</style>
+
+<nav class="container">
+
+    <form method="post" enctype="multipart/form-data" action="/flight_infor">
+        {% if kq %}
+        <input type="hidden" id="selected_flights" name="selected_flights">
+
+        <div class="container mt-4">
+            <input id="route_name_1" name="route_name_1" type="hidden" value=""/>
+            <input id="flight_id_1" name="flight_id_1" type="hidden" value=""/>
+            <input id="departure_time_1" name="departure_time_1" type="hidden" value=""/>
+            <input id="arrival_time_1" name="arrival_time_1" type="hidden" value=""/>
+            <input id="type_Class_1" name="type_Class_1" type="hidden" value=""/>
+            <input id="seat_price_class_1" name="seat_price_class_1" type="hidden" value=""/>
+            <input id="route_name_2" name="route_name_2" type="hidden" value=""/>
+            <input id="flight_id_2" name="flight_id_2" type="hidden" value=""/>
+            <input id="departure_time_2" name="departure_time_2" type="hidden" value=""/>
+            <input id="arrival_time_2" name="arrival_time_2" type="hidden" value=""/>
+            <input id="type_Class_2" name="type_Class_2" type="hidden" value=""/>
+            <input id="seat_price_class_2" name="seat_price_class_2" type="hidden" value=""/>
+            <input id="tripType" name="tripType" type="hidden" value="One Way"/>
+            <!--            -->
+            <input id="nguoilon" name="nguoilon" type="hidden" value="{{nguoilon}}"/>
+            <input id="treem" name="treem" type="hidden" value="{{treem}}"/>
+            <input id="embe" name="embe" type="hidden" value="{{embe}}"/>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <h1>{{tripType}}</h1>
+                    <p class="header-text">
+                        <i class="fas fa-plane">
+                        </i>
+                        Chiều đi :
+                        <span class="highlight">{{kq[0].route.name}}</span>
+                    </p>
+                    <p class="header-text">
+                        <i class="fas fa-calendar-alt"></i>
+                        Ngày khởi hành :
+                        <span class="highlight">
+              {{ kq[0].departure_time.strftime('%Y-%m-%d')}}</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>
+                                Hãng bay {{diemdi}}
+                            </th>
+                            <th>
+                                Chuyến bay
+                            </th>
+                            <th>
+                                Thời gian khởi hành
+                            </th>
+                            <th>
+                                Thời gian đến
+                            </th>
+
+                            <th >
+                                Giá vé hạng 1
+                            </th>
+
+                            <th>
+                                Giá vé hạng 2
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <!--                ----------------------------------------------------------->
+                        <tbody>
+                        {% for flight in kq %}
+                        <tr>
+                            <td>
+                                <img alt="Airline logo" height="50"
+                                     src="https://storage.googleapis.com/a1aa/image/f3Gdeg3elJfmjQUfld2s70U2X3zsCXX71JsMHobL44IsGo7eE.jpg"
+                                     width="50"/>
+                            </td>
+                            <td>
+                                {{flight.route.name}}
+                            </td>
+                            <td>
+                                {{flight.departure_time}}
+                            </td>
+                            <td>
+                                {{flight.arrival_time}}
+                            </td>
+                            <td class="cols" data-seat-count="{{flight.seat_count_class_1}}">
+                                <label>
+                                    <input name="book_1" onclick="updateHiddenInputs(this.value, 1)" type="radio"
+                                           value="{{flight.id}}|{{flight.route.name}}|{{flight.departure_time}}|{{flight.arrival_time}}|{% if flight_class2 == flight.Flight_Class %}CLASS_1{% else %}CLASS_1{% endif %}|{{flight.seat_price_class_1}}"/>
+                                    {{flight.seat_price_class_1}}
+                                </label>
+                            </td>
+
+                            <td class="cols" data-seat-count="{{flight.seat_count_class_2}}">
+                                <label>
+                                    <input name="book_1" onclick="updateHiddenInputs(this.value, 1)" type="radio"
+                                           value="{{flight.id}}|{{flight.route.name}}|{{flight.departure_time}}|{{flight.arrival_time}}|{% if flight_class1==flight.Flight_Class %}CLASS_2{% else %}CLASS_2{% endif %}|{{flight.seat_price_class_2}}"/>
+                                    {{flight.seat_price_class_2}}
+                                </label></td>
+
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+        </script>
+
+
+        {% if kq1 %}
+            <div class="container mt-4">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <p class="header-text">
+                            <i class="fas fa-plane">
+                            </i>
+                            Chiều về :
+                            <span class="highlight">{{kq1[0].route.name}}</span>
+                        </p>
+                        <p class="header-text">
+                            <i class="fas fa-calendar-alt"></i>
+                            Ngày khởi hành :
+                            <span class="highlight">
+              {{ kq1[0].departure_time.strftime('%Y-%m-%d')}}</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Hãng bay {{diemdi}}
+                                </th>
+                                <th>
+                                    Chuyến bay
+                                </th>
+                                <th>
+                                    Thời gian khởi hành
+                                </th>
+                                <th>
+                                    Thời gian đến
+                                </th>
+
+                                <th>
+                                    Giá vé hạng 1
+                                </th>
+                                <th>
+                                    Giá vé hạng 2
+                                </th>
+
+                            </tr>
+                            </thead>
+                            <!--                ----------------------------------------------------------->
+                            <tbody>
+                            {% for flight in kq1 %}
+                            <tr>
+                                <td>
+                                    <img alt="Airline logo" height="50"
+                                         src="https://storage.googleapis.com/a1aa/image/f3Gdeg3elJfmjQUfld2s70U2X3zsCXX71JsMHobL44IsGo7eE.jpg"
+                                         width="50"/>
+                                </td>
+                                <td>
+                                    {{flight.route.name}}
+                                </td>
+                                <td>
+                                    {{flight.departure_time}}
+                                </td>
+                                <td>
+                                    {{flight.arrival_time}}
+                                </td>
+
+
+
+                                <td class="cols" data-seat-count="{{flight.seat_count_class_1}}">
+                                    <label>
+                                        <input name="book_2" onclick="updateHiddenInputs(this.value, 2)" type="radio"
+                                               value="{{flight.id}}|{{flight.route.name}}|{{flight.departure_time}}|{{flight.arrival_time}}|{% if flight_class1 == flight.Flight_Class %}CLASS_1{% else %}CLASS_1{% endif %}|{{flight.seat_price_class_1}}"/>
+                                        {{flight.seat_price_class_1}}
+                                    </label>
+                                </td>
+
+                                <td class="cols" data-seat-count="{{flight.seat_count_class_2}}">
+                                    <label>
+                                        <input name="book_2" onclick="updateHiddenInputs(this.value, 2)" type="radio"
+                                               value="{{flight.id}}|{{flight.route.name}}|{{flight.departure_time}}|{{flight.arrival_time}}|{% if flight_class1==flight.Flight_Class %}CLASS_2{% else %}CLASS_2{% endif %}|{{flight.seat_price_class_2}}"/>
+                                        {{flight.seat_price_class_2}}
+                                    </label></td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+            </script>
+        {% else %}
+        <h1>KHÔNG CÓ CHUYẾN BAY VỀ</h1>
+        {% endif %}
+        {% else %}
+        <h1>KHONG CO CHUYEN BAY PHU HOP</h1>
+        {% endif %}
+        {% if kq %}
+        <div class="row">
+            <div class="col-12 text-end">
+                <button id="nextBtn" class="btn btn-primary" disabled>
+                    Tiếp tục
+                </button>
+            </div>
+        </div>
+        {% endif %}
+    </form>
+</nav>
+
+
+<!--Xử lý sự kiện khi click vào radio sẽ cập nhật-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js">
+</script>
+<script>
+    document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                checkRadioSelection();
+            });
+        });
+
+        function checkRadioSelection() {
+            var isChecked = false;
+            var radios = document.querySelectorAll('input[type="radio"]');
+
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+
+            var nextBtn = document.getElementById('nextBtn');
+            if (isChecked) {
+                nextBtn.disabled = false;
+            } else {
+                nextBtn.disabled = true;
+            }
+        }
+
+        document.querySelectorAll('.cols').forEach(function(td) {
+            var seatcount = td.getAttribute('data-seat-count');
+            var beforeContent = 'Còn ' + seatcount + ' ghế';
+            td.style.setProperty('--seat-count', `'${beforeContent}'`);
+        });
+
+        document.querySelectorAll('.cols').forEach(function(td) {
+            var seatCount = td.getAttribute('data-seat-count');
+            var inputRadio = td.querySelector('input[type="radio"]');
+
+            if (seatCount == 0) {
+                td.classList.add('out-of-stock');
+                td.classList.add('disabled');
+            } else {
+                td.classList.remove('out-of-stock');
+                td.classList.remove('disabled');
+            }
+        });
+
+        function updateHiddenInputs(value, formNumber) {
+            const [flightId, routeName, departureTime, arrivalTime, typeClass, seatPriceClass] = value.split('|');
+            document.getElementById(`flight_id_${formNumber}`).value = flightId;
+            document.getElementById(`route_name_${formNumber}`).value = routeName;
+            document.getElementById(`departure_time_${formNumber}`).value = departureTime;
+            document.getElementById(`arrival_time_${formNumber}`).value = arrivalTime;
+            document.getElementById(`type_Class_${formNumber}`).value = typeClass;
+            document.getElementById(`seat_price_class_${formNumber}`).value = seatPriceClass;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentTime = new Date();
+            var timeBookTicketLimit = {{ config_dict['time_book_ticket'] }};
+            document.querySelectorAll('input[type="radio"]').forEach(function(radio) {
+                var departureTime = new Date(radio.value.split('|')[2]);
+                var timeDifference = (departureTime - currentTime) / (1000 * 60 * 60);
+                if (timeDifference <= timeBookTicketLimit) {
+                    radio.disabled = true;
+
+                }
+            });
+        });
+</script>
+
+{% endblock %}

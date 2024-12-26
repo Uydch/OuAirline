@@ -1,0 +1,56 @@
+<div id="chatbox">
+    <div id="chat-header">
+        <h3><i class="fas fa-headset"></i>Hỗ trợ trực tuyến</h3>
+        <span id="chat-toggle">-</span>
+    </div>
+    <div id="chat-body" style="display: none;">
+        <div id="chat-messages">
+            <div class="message bot">Chào bạn! Tôi có thể giúp gì cho bạn?</div>
+        </div>
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn...">
+        <button id="send-btn">Gửi</button>
+    </div>
+</div>
+<script>
+  const chatHeader = document.getElementById("chat-header");
+const chatBody = document.getElementById("chat-body");
+const chatToggle = document.getElementById("chat-toggle");
+const chatMessages = document.getElementById("chat-messages");
+const chatInput = document.getElementById("chat-input");
+const sendBtn = document.getElementById("send-btn");
+
+// Toggle chatbox visibility
+chatHeader.addEventListener("click", () => {
+    if (chatBody.style.display === "none") {
+        chatBody.style.display = "flex";
+        chatToggle.textContent = "-";
+    } else {
+        chatBody.style.display = "none";
+        chatToggle.textContent = "+";
+    }
+});
+
+// Send message
+sendBtn.addEventListener("click", () => {
+    const userMessage = chatInput.value.trim();
+    if (userMessage) {
+        const userMsgDiv = document.createElement("div");
+        userMsgDiv.className = "message user";
+        userMsgDiv.textContent = userMessage;
+        chatMessages.appendChild(userMsgDiv);
+
+        chatInput.value = "";
+
+        // Add bot reply
+        setTimeout(() => {
+            const botMsgDiv = document.createElement("div");
+            botMsgDiv.className = "message bot";
+            botMsgDiv.textContent = "Cảm ơn bạn đã nhắn tin. Chúng tôi sẽ phản hồi sớm!";
+            chatMessages.appendChild(botMsgDiv);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+    }
+});
+
+</script>

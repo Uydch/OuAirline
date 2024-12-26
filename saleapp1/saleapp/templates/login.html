@@ -1,0 +1,74 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+
+<nav class="container2">
+    <nav class="container1">
+        <h1 class="text-center text-success">ĐĂNG NHẬP TÀI KHOẢN</h1>
+
+        <form method="post" class="register" enctype="multipart/form-data" action="/login">
+            <div class="form-floating mb-3 mt-3">
+                <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" name="username">
+                <label for="username"><i class="fa fa-user"></i> Tên đăng nhập</label>
+
+            </div>
+
+            <div class="form-floating mt-3 mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Mật khẩu" name="password">
+                <label for="password"><i class="fa fa-lock"></i>Mật khẩu</label>
+                <i id="togglePassword" class="fas fa-eye-slash"></i>
+
+            </div>
+
+            {% if err_msg1 %}
+            <div class="" style="font-size:13px;color:red;">
+                {{err_msg1}}
+            </div>
+            {% endif %}
+
+            <div style="padding:20px;  display: flex;
+    justify-content: center;
+    align-items: center; ">
+                <div style="text-align:center;">
+                    <div style="margin-bottom:10px">
+                        <button type="submit" class="btn btn-success" value="Đăng nhập">ĐĂNG NHẬP</button>
+                    </div>
+                    <div>
+                        <a class="navbar-brand text1" href="/register">Đăng ký tài khoản mới</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </nav>
+</nav>
+
+<script>
+    // Lấy phần tử mật khẩu và icon hiển thị mật khẩu
+const togglePassword = document.getElementById("togglePassword");
+const passwordField = document.getElementById("password");
+
+
+    passwordField.addEventListener("input", function() {
+        if (passwordField.value.length > 0) {
+            togglePassword.style.display = 'inline';  // Hiển thị icon mắt
+        } else {
+            togglePassword.style.display = 'none';   // Ẩn icon mắt khi không có nhập liệu
+        }
+    });
+
+    togglePassword.addEventListener("click", function () {
+    if (passwordField.type === "password") {
+        passwordField.type = "text"; // Hiển thị mật khẩu
+        togglePassword.classList.remove("fa-eye-slash"); // Xóa icon mắt đóng
+        togglePassword.classList.add("fa-eye"); // Thêm icon mắt mở
+    } else {
+        passwordField.type = "password"; // Ẩn mật khẩu
+        togglePassword.classList.remove("fa-eye"); // Xóa icon mắt mở
+        togglePassword.classList.add("fa-eye-slash"); // Thêm icon mắt đóng
+    }
+});
+
+
+</script>
+{% endblock %}
